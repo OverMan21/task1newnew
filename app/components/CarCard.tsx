@@ -1,19 +1,44 @@
-"use client";
+import React, { useState } from "react";
+import DetailView from "./DetailView";
 
 interface Car {
-  name: string;
-  model: string;
   make: string;
+  model: string;
   year: number;
-  price?: number;
+  city_mpg: number;
+  highway_mpg: number;
+  combination_mpg: number;
+  cylinders: number;
+  displacement: number;
+  drive: string;
+  fuel_type: string;
+  transmission: string;
+  class: string;
 }
 
-export default function CarCard({ car }: { car: Car }) {
+interface CarCardProps {
+  car: Car;
+}
+
+const CarCard: React.FC<CarCardProps> = ({ car }) => {
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
-    <div className="border rounded-lg p-4 shadow hover:shadow-md transition">
-      <h3 className="font-semibold text-lg">{car.make} {car.model}</h3>
-      <p className="text-sm text-gray-500">Year: {car.year}</p>
-      {car.price && <p className="text-sm">Price: ${car.price}</p>}
+    <div className="border rounded-lg p-4 shadow-md">
+      <h2 className="font-bold text-lg">{car.make} {car.model}</h2>
+      <p>An: {car.year}</p>
+      <button
+        onClick={() => setShowDetails(true)}
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        View Details
+      </button>
+
+      {showDetails && (
+        <DetailView car={car} onClose={() => setShowDetails(false)} />
+      )}
     </div>
   );
-}
+};
+
+export default CarCard;
